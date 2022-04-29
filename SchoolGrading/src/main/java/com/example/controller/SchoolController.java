@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +33,21 @@ public class SchoolController {
 		return new ResponseEntity<List<Student>>(list,HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/subjectTopper/{subject}")
-	public ResponseEntity<Student> getSubjectTopper(@PathVariable String subject) throws Exception
+	@GetMapping(value = "/subjectTopper")
+	public ResponseEntity<List<Student>> getSubjectTopper() throws Exception
 	{
 		try 
 		{
-			Student s = schoolService.subjectTopper(subject);
-			return new ResponseEntity<Student>(s,HttpStatus.OK);
+			Student se = schoolService.subjectTopper("Maths");
+			Student sc = schoolService.subjectTopper("Chemistry");
+			Student sp = schoolService.subjectTopper("Physics");
+			
+			List <Student> result = new ArrayList<>();
+			result.add(se);
+			result.add(sc);
+			result.add(sp);
+			
+			return new ResponseEntity<List<Student>>(result,HttpStatus.OK);
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, environment.getProperty(e.getMessage()));
 		}
